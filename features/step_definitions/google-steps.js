@@ -26,4 +26,26 @@ defineSupportCode(function({When, Then}) {
       });
   });
 
+  When(/^I search Google for "cat"$/, function(catName, next) {
+    this.driver.get(`https://www.google.com/search?q=cat&oq=cat&aqs=chrome..69i57j0l5.3122j1j7&sourceid=chrome&ie=UTF-8`);
+    this.driver.findElement(By.className('cat'))
+    .sendKeys(catName);
+    this.driver.findElement(By.className('cat'))
+    .sendKeys(Key.ENTER)
+    .then(function() {
+      next();
+    });
+  });
+
+  Then(/^I should see some cats$/, function(next) {
+    this.driver.wait(until.elementLocated(By.className('div.g')));
+    this.driver.findElements(By.className('div.g'))
+      .then(function(elements) {
+        expect(elements.length).to.not.equal(0);
+        next();
+      });
+  });
+
 });
+
+
